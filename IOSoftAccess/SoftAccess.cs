@@ -32,6 +32,7 @@ namespace IOSoftAccess
         public abstract Task<(bool success, DateTime lastAccessTimeUtc)> TryGetLastAccessTimeUtcAsync();
     }
 
+    // TODO Master info implemented, FileInfo specific still required
     public class SoftFileInfo : SoftFileSystemInfo
     {
         private readonly FileInfo file;
