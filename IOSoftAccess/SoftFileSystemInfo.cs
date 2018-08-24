@@ -15,6 +15,8 @@ namespace IOSoftAccess
 
         #region Standard Methods
 
+        #region Synchronous Methods
+
         public virtual bool TryDelete()
         {
             try
@@ -24,6 +26,15 @@ namespace IOSoftAccess
             }
             catch (Exception) { return false; }
         }
+
+        #endregion
+
+        #region Asynchronous Methods
+
+        public virtual async Task<bool> TryDeleteAsync()
+            => await Task.Run(() => TryDelete());
+
+        #endregion
 
         #endregion
 
@@ -145,9 +156,6 @@ namespace IOSoftAccess
         #endregion
 
         #region Asynchronous Methods
-        public virtual async Task<bool> TryDeleteAsync()
-            => await Task.Run(() => TryDelete());
-
         public virtual async Task<(bool success, string extension)> TryGetExtensionAsync()
             => await Task.Run(() => (TryGetExtension(out var extension), extension));
 
@@ -178,119 +186,5 @@ namespace IOSoftAccess
         #endregion
     }
     
-    public class SoftFileInfo : SoftFileSystemInfo
-    {
-        private FileInfo file;
 
-        public SoftFileInfo(string fileName)
-        {
-            FileSystem = new FileInfo(fileName);
-            file = FileSystem as FileInfo;
-        }
-
-        #region Standard Methods
-
-        // TODO Implement Standard Methods and Async Getters/Setters
-
-
-        #endregion
-
-        #region FileInfo Methods
-
-        #region Getters & Setters
-
-        #region Synchronous Methods
-        public bool TryGetDirectory(out DirectoryInfo directory)
-        {
-            try
-            {
-                directory = file.Directory;
-                return true;
-            }
-            catch(Exception)
-            {
-                directory = default(DirectoryInfo);
-                return false;
-            }
-        }
-
-        public bool TryGetDirectoryName(out string directoryName)
-        {
-            try
-            {
-                directoryName = file.DirectoryName;
-                return true;
-            }
-            catch (Exception)
-            {
-                directoryName = default(string);
-                return false;
-            }
-        }
-
-        public bool TryGetIsReadOnly(out bool? isReadOnly)
-        {
-            try
-            {
-                isReadOnly = file.IsReadOnly;
-                return true;
-            }
-            catch (Exception)
-            {
-                isReadOnly = default(bool?);
-                return false;
-            }
-        }
-
-        public bool TryGetLastWriteTime(out DateTime? lastWriteTime)
-        {
-            try
-            {
-                lastWriteTime = file.LastWriteTime;
-                return true;
-            }
-            catch (Exception)
-            {
-                lastWriteTime = default(DateTime?);
-                return false;
-            }
-        }
-
-        public bool TryGetLastWriteTimeUtc(out DateTime? lastWriteTimeUtc)
-        {
-            try
-            {
-                lastWriteTimeUtc = file.LastWriteTimeUtc;
-                return true;
-            }
-            catch (Exception)
-            {
-                lastWriteTimeUtc = default(DateTime?);
-                return false;
-            }
-        }
-
-        public bool TryGetLength(out int? length)
-        {
-            try
-            {
-                length = file.Length;
-                return true;
-            }
-            catch (Exception)
-            {
-                length = default(int?);
-                return false;
-            }
-        }
-        #endregion
-
-        #region Asynchronous Methods
-
-        #endregion
-
-        #endregion
-
-        #endregion
-    }
 }
